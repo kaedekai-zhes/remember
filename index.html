@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Remember Me 讀者劇場練習</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F1FF;--card:#fff;--ink:#241a3d;--mute:#6b5f86;--line:#ddd2f0;--accent:#E8590C;--on:#fff;--hl:#FFE8A3;--flag1:#FF9F1C;--flag2:#E63E8B;--flag3:#2EC4B6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1B1038;--card:#2A1C52;--ink:#F6EEFF;--mute:#B9A9DD;--line:#44347a;--accent:#FF9F1C;--on:#1B1038;--hl:#5b3f00}}
+:root[data-theme="dark"]{--bg:#1B1038;--card:#2A1C52;--ink:#F6EEFF;--mute:#B9A9DD;--line:#44347a;--accent:#FF9F1C;--on:#1B1038;--hl:#5b3f00}
+html{scroll-padding-top:150px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Fredoka','Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;line-height:1.5}
+.flags{height:20px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='20'%3E%3Cpath d='M0 0h30L15 20z' fill='%23FF9F1C'/%3E%3Cpath d='M30 0h30L45 20z' fill='%23E63E8B'/%3E%3Cpath d='M60 0h30L75 20z' fill='%232EC4B6'/%3E%3C/svg%3E") repeat-x}
+header{padding:14px 16px 6px;max-width:760px;margin:0 auto}
+h1{font-size:1.7rem;margin:0;line-height:1.2}
+header p{margin:2px 0 0;color:var(--mute);font-size:.95rem}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line);padding:8px 16px}
+.bar>div{max-width:760px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+button,select{font:inherit;color:inherit}
+.btn{background:var(--accent);color:var(--on);border:0;border-radius:999px;padding:7px 16px;font-weight:600;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+button:focus-visible,select:focus-visible,input:focus-visible,.w:focus-visible{outline:3px solid var(--flag3);outline-offset:2px}
+label{display:flex;align-items:center;gap:6px;font-size:.95rem}
+input[type=range]{width:130px;accent-color:var(--accent)}
+select{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:5px 8px}
+.tabs{display:flex;gap:6px;margin-top:2px}
+.tab{border:0;background:transparent;padding:6px 14px;border-radius:10px 10px 0 0;font-weight:600;cursor:pointer;color:var(--mute)}
+.tab[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:inset 0 -3px var(--accent)}
+main{max-width:760px;margin:0 auto;padding:12px 16px 190px}
+h2{font-size:1.15rem;margin:22px 0 8px;padding-left:10px;border-left:6px solid var(--flag2)}
+.line{display:grid;grid-template-columns:96px 1fr 44px;gap:10px;align-items:start;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 10px 10px 12px;margin:8px 0}
+.line.now{border-color:var(--accent);background:var(--hl);color:#241a3d}
+.role{font-weight:600;font-size:.9rem;display:flex;gap:6px;align-items:center}
+.role i{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none}
+.txt{font-size:1.2rem;line-height:1.7}
+.song{font-size:.8rem;color:var(--mute)}
+.w{cursor:pointer;border-radius:6px;padding:0 1px}
+.w:hover{background:var(--hl);color:#241a3d}
+.w.sel{background:var(--flag3);color:#10253a}
+.mid{min-width:0}.tr{display:none;color:var(--mute);font-size:1rem;margin-top:2px}.line.show .tr{display:block}.line.now .tr{color:#4a3d6b}
+.ctl{display:flex;flex-direction:column;gap:6px;align-items:center}
+.zhb{width:40px;height:26px;border-radius:13px;border:2px solid var(--line);background:transparent;font-size:.8rem;cursor:pointer}.line.show .zhb{background:var(--flag3);color:#10253a;border-color:var(--flag3)}
+.play{width:40px;height:40px;border-radius:50%;border:0;background:var(--c);color:#fff;font-size:1rem;cursor:pointer}
+.your{font-weight:600;color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px}
+.card b{font-size:1.4rem}
+.card .syl{color:var(--mute);letter-spacing:.04em}
+.card .zh{font-size:1.05rem;margin:2px 0 6px}
+.card .ex{font-size:.9rem;color:var(--mute);line-height:1.6}
+.card .row{display:flex;gap:6px;margin-top:8px}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:4px solid var(--accent);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:9}
+.sheet>div{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sheet .big{font-size:1.8rem;font-weight:600}
+.sheet .zh{font-size:1.3rem}
+.hide{display:none}
+a.btn{display:inline-block;text-decoration:none;margin-top:6px}
+table{border-collapse:collapse;width:100%}th,td{border:2px solid var(--line);padding:6px 10px;text-align:left}th{background:var(--card)}
+#bg p{font-size:1.05rem}#bg .card b{font-size:1.15rem}
+.warn{background:var(--hl);color:#241a3d;padding:8px 12px;border-radius:10px;margin:8px 0}
+@media (max-width:520px){.line{grid-template-columns:1fr 44px}.role{grid-column:1/-1}.mid{grid-column:1}.ctl{grid-row:2;grid-column:2}}
+</style>
+</head>
+<body>
+<div class="flags" aria-hidden="true"></div>
+<header>
+  <h1>Remember Me 讀者劇場練習</h1>
+  <p>萬聖節 × 亡靈節｜點「▶」聽整句，點任何單字聽發音並看中文</p>
+</header>
+<div class="bar"><div>
+  <label>語速 <input id="rate" type="range" min="0.5" max="1.2" step="0.1" value="0.8" aria-label="語速"> <b id="rv">0.8x</b></label>
+  <label>我來演 <select id="me" aria-label="選擇角色"></select></label>
+  <label><input type="checkbox" id="zh"> 顯示中文</label>
+  <button class="btn" id="all">▶ 從頭播放</button>
+  <button class="btn alt" id="stop">■ 停止</button>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t1" aria-selected="true">劇本</button>
+    <button class="tab" role="tab" id="t2" aria-selected="false">重點單字</button>
+    <button class="tab" role="tab" id="t3" aria-selected="false">背景知識</button>
+  </div>
+</div></div>
+<main>
+  <div id="warn" class="warn hide">這個瀏覽器不支援語音朗讀，請改用 Chrome、Edge 或 Safari。</div>
+  <section id="script"></section>
+  <section id="vocab" class="hide"></section>
+  <section id="bg" class="hide">
+<h2>先看影片</h2>
+<div class="card"><b>🎬 亡靈節影片</b><div class="zh">看完影片，再回來練習劇本。</div><a class="btn" href="https://www.youtube.com/watch?v=VhE4eg1iL8I" target="_blank" rel="noopener">▶ 在 YouTube 觀看</a></div>
+<h2>什麼是亡靈節？</h2>
+<p><b>Día de los Muertos</b>（亡靈節）是墨西哥的傳統節日，大約在每年 <b>11 月 1 日到 2 日</b>。人們用這個節日<b>想念已經過世的家人和朋友</b>。它不是要嚇人，而是充滿愛、回憶與感謝的日子，人們相信親人的靈魂會在這幾天回家看看大家。</p>
+<h2>亡靈節裡有什麼？</h2>
+<div class="cards">
+<div class="card"><b>ofrenda 祭壇</b><div class="ex">擺上照片、食物、花和蠟燭，用來歡迎親人回家。</div></div>
+<div class="card"><b>marigold 萬壽菊</b><div class="ex">橘色的花，花瓣和香氣像是替靈魂指引回家的路。</div></div>
+<div class="card"><b>sugar skull 糖骷髏</b><div class="ex">彩色又可愛的骷髏，常寫上家人的名字，不是用來嚇人。</div></div>
+<div class="card"><b>pan de muerto 亡靈麵包</b><div class="ex">節日限定的甜麵包，也會放上祭壇和大家分享。</div></div>
+<div class="card"><b>papel picado 剪紙旗</b><div class="ex">彩色的鏤空紙旗，把節日布置得熱鬧漂亮。這個網站最上面的彩旗，就是它的樣子。</div></div>
+</div>
+<h2>萬聖節 vs. 亡靈節</h2>
+<div style="overflow-x:auto"><table><tr><th></th><th>Halloween 萬聖節</th><th>Día de los Muertos 亡靈節</th></tr>
+<tr><td>日期</td><td>10 月 31 日</td><td>11 月 1–2 日</td></tr>
+<tr><td>氣氛</td><td>好玩、有點可怕</td><td>思念、感謝、溫暖</td></tr>
+<tr><td>做什麼</td><td>扮裝、Trick or treat</td><td>做 ofrenda、分享食物、說家人的故事</td></tr>
+<tr><td>骷髏</td><td>用來嚇人</td><td>彩色可愛，代表記得與愛</td></tr></table></div>
+<h2>劇本怎麼連結亡靈節？</h2>
+<div class="cards">
+<div class="card"><b>Scene 1 萬聖節來了</b><div class="ex">鬼、女巫、木乃伊、吸血鬼玩 Trick or treat。這時 Miguel 出現，說他在慶祝 Día de los Muertos。</div></div>
+<div class="card"><b>Scene 2 認識亡靈節</b><div class="ex">怪物們問：<b>Love? Not spooky tricks?</b> Miguel 說這天是關於家人和愛。大家一起做 ofrenda：花、食物、照片，都是真的亡靈節元素。</div></div>
+<div class="card"><b>四種記得的方法</b><div class="ex">Tell their stories 講故事、Look at their pictures 看照片、Sing their songs 唱歌、Share their favorite food 分享食物。</div></div>
+<div class="card"><b>Remember Me 歌曲</b><div class="ex">歌名和歌詞和電影《可可夜總會》(Coco) 的歌曲 Remember Me 很像，那部電影也是以亡靈節為主題。</div></div>
+<div class="card"><b>Scene 3 結論</b><div class="ex">Don't be afraid of the dead. 不要害怕，記得他們的笑容、故事和愛，<b>They live in our hearts!</b></div></div>
+</div>
+<h2>想一想，說一說</h2>
+<div class="card" id="qs"></div>
+</section>
+</main>
+<div class="sheet" id="sheet" aria-live="polite"><div>
+  <span class="big" id="sw">點一個單字</span><span class="zh" id="sz">會顯示中文意思</span>
+  <button class="btn" id="sp">🔊 再聽一次</button><button class="btn alt" id="ss">🐢 慢速</button>
+</div></div>
+<script>
+const R={'Narrator 1':'#4C6EF5','Narrator 2':'#4C9BF5','Miguel':'#E8890C','Witch':'#9B5DE5','Vampire':'#D62839','Mummy':'#7A8599','Ghost':'#1FA99B','Chorus':'#D6459B','All':'#D6459B'};
+const P={'Miguel':1.3,'Witch':1.15,'Vampire':.7,'Mummy':.8,'Ghost':1.5};
+const L=[
+['#','Scene 1 · Introduction','場景一：介紹'],
+['All',"This is Halloween. This is Halloween. Halloween, Halloween, Halloween, Halloween.",1],
+['Narrator 1',"It's Halloween! The moon is high. What a spooky night!"],
+['Narrator 2',"Look! There are ghosts, witches, mummies, and vampires!"],
+['Chorus',"Trick or treat! Smell my feet! Give me something good to eat!"],
+['Witch',"I am a witch! (We're witches!) Ha, ha, ha!"],
+['Vampire',"I am a vampire! (We're vampires!) Grrr!"],
+['Mummy',"I am a mummy! (We're mummies!) Help me! I'm stuck!"],
+['Chorus',"Ha, ha, ha!"],
+['Miguel',"Happy Halloween, everyone!"],
+['Ghost',"Hey, look at that boy! Is he a scary skeleton?"],
+['Miguel',"No, I am Miguel! I am celebrating Día de los Muertos—the Day of the Dead!"],
+['#','Scene 2 · Día de los Muertos','場景二：亡靈節'],
+['Narrator 1',"In Mexico, there is a special celebration called Día de los Muertos."],
+['Narrator 2',"It means Day of the Dead."],
+['Miguel',"Halloween is about fun costumes and tricks, but the Day of the Dead is about family and love."],
+['Witch',"Love? Not spooky tricks?"],
+['Miguel',"It is a day to remember our family and friends."],
+['Vampire',"Remember?"],
+['Miguel',"Yes. We remember the people we love."],
+['Mummy',"Oh, I see! We can make an ofrenda."],
+['Ghost',"We can put flowers on it."],
+['Vampire',"And food!"],
+['Witch',"And pictures of our family."],
+['Miguel',"When we remember someone, they are still in our hearts."],
+['Narrator 1',"Miguel looks at the pictures on the ofrenda."],
+['Miguel',"I miss my family."],
+['Witch',"Do you remember them?"],
+['Miguel',"Yes, I do."],
+['Vampire',"Then they are never really far away."],
+['Miguel',"There are many ways to remember them, such as…"],
+['Vampire',"Tell their stories."],
+['Mummy',"Look at their pictures."],
+['Witch',"Sing their songs."],
+['Ghost',"Share their favorite food."],
+['Miguel',"And remember their love!"],
+['Chorus',"Remember me ~",1],
+['Miguel',"Though I have to say goodbye ~",1],
+['Chorus',"Remember me ~",1],
+['Witch',"Don't let it make you cry ~",1],
+['Vampire',"For even if I'm far away, I hold you in my heart.",1],
+['Ghost',"I sing a secret song to you each night we are apart.",1],
+['Narrator 2',"Wow... What a beautiful song! Not scary at all!"],
+['Narrator 1',"It warms our hearts!"],
+['#','Scene 3 · Remember me','場景三：記得我'],
+['Narrator 2',"Halloween can be fun."],
+['Narrator 1',"We dress up like ghosts, witches, mummies, and vampires."],
+['Chorus',"Trick or treat!"],
+['Narrator 2',"But Día de los Muertos teaches us something special."],
+['Miguel',"Don't be afraid of the dead."],
+['Witch',"Remember the people you love."],
+['Vampire',"Remember their smiles."],
+['Mummy',"Remember their stories."],
+['Ghost',"Remember their love."],
+['Miguel',"And when we remember them..."],
+['All',"They live in our hearts!"],
+['Narrator 1',"Happy Halloween!"],
+['Narrator 2',"Happy Día de los Muertos!"],
+['All',"REMEMBER ME!"]
+];
+const TR=["這是萬聖節。這是萬聖節。萬聖節，萬聖節，萬聖節，萬聖節。", "萬聖節到了！月亮高高的。多麼陰森的夜晚！", "看！有鬼、女巫、木乃伊和吸血鬼！", "不給糖就搗蛋！聞聞我的腳！給我一些好吃的東西！", "我是女巫！（我們是女巫！）哈哈哈！", "我是吸血鬼！（我們是吸血鬼！）嗷！", "我是木乃伊！（我們是木乃伊！）救命！我卡住了！", "哈哈哈！", "萬聖節快樂，大家好！", "嘿，看那個男孩！他是可怕的骷髏嗎？", "不，我是米格爾！我正在慶祝 Día de los Muertos——亡靈節！", "在墨西哥，有一個特別的慶典，叫做 Día de los Muertos。", "它的意思是亡靈節。", "萬聖節是好玩的服裝和惡作劇，但亡靈節是關於家人和愛。", "愛？不是陰森的惡作劇嗎？", "這是一個紀念我們家人和朋友的日子。", "紀念？", "對。我們記得我們所愛的人。", "喔，我懂了！我們可以做一個 ofrenda（祭壇）。", "我們可以在上面放花。", "還有食物！", "還有我們家人的照片。", "當我們記得某個人，他們就還在我們心裡。", "米格爾看著祭壇上的照片。", "我想念我的家人。", "你記得他們嗎？", "是的，我記得。", "那麼他們從來沒有真的離得很遠。", "有很多方法可以記得他們，例如……", "講他們的故事。", "看他們的照片。", "唱他們的歌。", "分享他們最愛的食物。", "還有記得他們的愛！", "記得我～", "雖然我必須說再見～", "記得我～", "別讓它使你哭泣～", "因為即使我離得很遠，我也把你抱在我心裡。", "我們分開的每個夜晚，我都為你唱一首祕密的歌。", "哇……多美的一首歌！一點也不可怕！", "它溫暖了我們的心！", "萬聖節可以很好玩。", "我們打扮成鬼、女巫、木乃伊和吸血鬼。", "不給糖就搗蛋！", "但是亡靈節教我們一些特別的事。", "不要害怕死去的人。", "記得你愛的人。", "記得他們的笑容。", "記得他們的故事。", "記得他們的愛。", "當我們記得他們……", "他們就活在我們心裡！", "萬聖節快樂！", "亡靈節快樂！", "記得我！"];
+const D={};"this=這個,is=是,halloween=萬聖節,song=歌曲,songs=歌曲(複數),it's=它是／今天是,the=這／那,moon=月亮,high=高的,and=和,night=夜晚,dark=黑暗的,look=看,looks=看,there=那裡／有,are=是,ghosts=鬼(複數),ghost=鬼,witches=女巫(複數),witch=女巫,mummies=木乃伊(複數),mummy=木乃伊,vampires=吸血鬼(複數),vampire=吸血鬼,trick=惡作劇,tricks=惡作劇,or=或者,treat=款待／糖果,smell=聞,my=我的,feet=腳(複數),give=給,something=某樣東西,good=好的,to=去／要,eat=吃,i=我,am=是,we're=我們是,ha=哈,grrr=嗷嗚(吼聲),help=幫忙,me=我,i'm=我是,stuck=卡住的,happy=快樂的,everyone=每個人,hey=嘿,at=看著,that=那個,boy=男孩,he=他,scary=可怕的,skeleton=骷髏,no=不,celebrating=慶祝,celebration=慶典,día=日／天(西語),de=的(西語),los=(西語冠詞),muertos=死者(西語),day=日子,of=的,dead=死去的,in=在…裡,mexico=墨西哥,special=特別的,called=被稱為,it=它,means=意思是,about=關於,fun=好玩的,costumes=服裝,but=但是,family=家人,love=愛,not=不,spooky=陰森的,remember=記得,friends=朋友,yes=是的,people=人們,we=我們,oh=喔,see=明白,can=可以,make=製作,a=一個,an=一個,ofrenda=祭壇(西語),put=放,flowers=花(複數),on=在…上,food=食物,pictures=照片,our=我們的,when=當…時,someone=某人,they=他們,still=仍然,hearts=心(複數),heart=心,miss=想念,do=(助動詞),you=你,them=他們,then=那麼,never=從不,really=真的,far=遠的,away=離開,many=許多,ways=方法,such=例如,as=像,tell=講述,their=他們的,stories=故事,sing=唱,share=分享,favorite=最喜歡的,though=雖然,have=必須,say=說,goodbye=再見,don't=不要,let=讓,cry=哭,for=因為,even=即使,if=如果,hold=抱住,secret=祕密,each=每個,apart=分開,wow=哇,what=多麼,beautiful=美麗的,warms=使溫暖,dress=穿戴／打扮,up=向上,like=像,teaches=教導,us=我們,afraid=害怕的,smiles=微笑(複數),live=活著,all=全部,miguel=米格爾(人名),happy=快樂的,can=可以".split(',').forEach(e=>{const i=e.indexOf('=');D[e.slice(0,i)]=e.slice(i+1)});
+const H=[['celebrating','cel·e·brat·ing'],['celebration','cel·e·bra·tion'],['costumes','cos·tumes'],['skeleton','skel·e·ton'],['vampire','vam·pire'],['mummy','mum·my'],['witch','witch'],['stuck','stuck'],['scary','scar·y'],['spooky','spook·y'],['special','spe·cial'],['family','fam·i·ly'],['remember','re·mem·ber'],['ofrenda','o·fren·da'],['favorite','fa·vor·ite'],['secret','se·cret'],['beautiful','beau·ti·ful'],['stories','sto·ries'],['afraid','a·fraid'],['pictures','pic·tures'],['though','though'],['goodbye','good·bye'],['flowers','flow·ers'],['Mexico','Mex·i·co'],['people','peo·ple']];
+const ES=new Set(["día","de","los","muertos"]);
+const $=id=>document.getElementById(id);
+const key=w=>w.toLowerCase().replace(/’/g,"'");
+const tok=t=>t.replace(/[\p{L}'’]+/gu,w=>`<span class="w" tabindex="0" role="button" data-w="${w}">${w}</span>`);
+const say=t=>t.replace(/[~…]/g,'').replace(/—/g,', ');
+async function speakMixed(t,pitch){const m=token;for(const s of t.split(/(Día de los Muertos)/g)){const c=s.replace(/^[^\p{L}]+/u,'');if(!/\p{L}/u.test(c))continue;if(m!==token)return;await(/^(Día de los Muertos)$/.test(c)?speak(c,'es-MX',pitch):speak(say(c),'en-US',pitch))}}
+const synth=window.speechSynthesis;
+if(!synth)$('warn').classList.remove('hide');
+let rate=.8,token=0,cur=null;
+const pick=lang=>{const v=synth.getVoices();return v.find(x=>x.lang.replace('_','-')===lang)||v.find(x=>x.lang.slice(0,2)===lang.slice(0,2))};
+function speak(t,lang='en-US',pitch=1,r){return new Promise(res=>{if(!synth)return res();const u=new SpeechSynthesisUtterance(t);u.lang=lang;u.rate=r||rate;u.pitch=pitch;const v=pick(lang);if(v)u.voice=v;u.onend=u.onerror=res;synth.speak(u)})}
+function stop(){token++;if(synth)synth.cancel();document.querySelectorAll('.line.now').forEach(e=>e.classList.remove('now'))}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let last=null;
+function showWord(w,slow){const k=key(w);last=w;document.querySelectorAll('.w.sel').forEach(e=>e.classList.remove('sel'));document.querySelectorAll('.w').forEach(e=>{if(e.dataset.w===w)e.classList.add('sel')});$('sw').textContent=w;$('sz').textContent=D[k]||'（尚無翻譯）';stop();speak(w,ES.has(k)?'es-MX':'en-US',1,slow?.45:rate)}
+const roles=[...new Set(L.filter(l=>l[0]!='#'&&l[0]!='All'&&l[0]!='Chorus').map(l=>l[0]))];
+$('me').innerHTML='<option value="">不扮演（全部聽）</option>'+roles.map(r=>`<option>${r}</option>`).join('');
+let n=0;$('script').innerHTML=L.map((l,i)=>l[0]=='#'?`<h2>${l[1]}　<small>${l[2]}</small></h2>`:`<div class="line" id="L${i}" style="--c:${R[l[0]]}"><div class="role"><i></i>${l[0]}${l[2]?'<span class="song">🎵</span>':''}</div><div class="mid"><div class="txt">${tok(l[1])}</div><div class="tr">${TR[n++]}</div></div><div class="ctl"><button class="play" data-i="${i}" aria-label="播放這句">▶</button><button class="zhb" aria-pressed="false" aria-label="顯示或隱藏這句中文">中</button></div></div>`).join('');
+const ex=w=>{const l=L.find(x=>x[0]!='#'&&new RegExp("\\b"+w+"\\b","i").test(x[1]));return l?tok(l[1]):''};
+$('vocab').innerHTML='<p>這些字比較難，先練單字，再回到劇本。</p><div class="cards">'+H.map(([w,s])=>`<div class="card"><b>${w}</b> <span class="syl">${s}</span><div class="zh">${D[key(w)]}</div><div class="ex">${ex(w)}</div><div class="row"><button class="btn" data-v="${w}">🔊 聽單字</button><button class="btn alt" data-v="${w}" data-s="1">🐢 慢速</button></div></div>`).join('')+'</div>';
+async function playLine(i){const l=L[i],el=$('L'+i);document.querySelectorAll('.line.now').forEach(e=>e.classList.remove('now'));el.classList.add('now');el.scrollIntoView({block:'center',behavior:'smooth'});
+ if($('me').value&&l[0]===$('me').value){const n=l[1].split(' ').length;await sleep(n*650/rate)}else await speakMixed(l[1],P[l[0]]||1)}
+document.addEventListener('click',async e=>{
+ const w=e.target.closest('.w');if(w)return showWord(w.dataset.w);
+ const p=e.target.closest('.play');if(p){stop();const m=++token;await playLine(+p.dataset.i);if(m===token)document.querySelectorAll('.line.now').forEach(x=>x.classList.remove('now'))}
+ const z=e.target.closest('.zhb');if(z){const l=z.closest('.line');const on=l.classList.toggle('show');z.setAttribute('aria-pressed',on);return}
+ const v=e.target.closest('[data-v]');if(v)showWord(v.dataset.v,!!v.dataset.s)});
+document.addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&e.target.classList.contains('w')){e.preventDefault();showWord(e.target.dataset.w)}});
+$('all').onclick=async()=>{stop();const m=++token;for(let i=0;i<L.length;i++){if(L[i][0]=='#')continue;if(m!==token)return;await playLine(i);await sleep(250)}if(m===token)stop()};
+$('stop').onclick=stop;
+$('zh').onchange=e=>document.querySelectorAll('.line').forEach(l=>{l.classList.toggle('show',e.target.checked);l.querySelector('.zhb').setAttribute('aria-pressed',e.target.checked)});
+$('rate').oninput=e=>{rate=+e.target.value;$('rv').textContent=rate.toFixed(1)+'x'};
+$('sp').onclick=()=>last&&showWord(last);$('ss').onclick=()=>last&&showWord(last,true);
+function tab(n){['script','vocab','bg'].forEach((id,i)=>{$(id).classList.toggle('hide',i+1!=n);$('t'+(i+1)).setAttribute('aria-selected',i+1==n)})}
+$('qs').innerHTML=['Who do you remember? 你會想念誰？','What food would you put on your ofrenda? 你會在祭壇放什麼食物？','How is Halloween different from Día de los Muertos? 萬聖節和亡靈節哪裡不一樣？'].map(q=>{const i=q.search(/[\u4e00-\u9fff]/);return '<p><b>'+tok(q.slice(0,i))+'</b><br>'+q.slice(i)+'</p>'}).join('');
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);$('t3').onclick=()=>tab(3);
+if(synth)synth.onvoiceschanged=()=>{};
+</script>
+</body>
+</html>
